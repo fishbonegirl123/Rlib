@@ -12,7 +12,8 @@ ggplot(data.frame(Correlation = correlations),
        aes(x = Correlation, fill = 1)) +  
   geom_density() +  
   theme(legend.position = 'none')
-#列正相关，可以使用pca
+
+#pca
 pca <- princomp(df[,2:ncol(df)])
 pca
 #观察第一载荷的分布
@@ -22,3 +23,11 @@ ggplot(data.frame(Loading = loadings),
        aes(x = Loading, fill = 1)) +
   geom_density() +
   theme(legend.position = 'none')
+#把主成分转换为1列
+df.index<- predict(pca)[,1]
+
+#removing highly correlated variables
+high_cor <- findCorrelation(cor.matrix, cutoff = 0.99)
+high_cor
+df <- df[,-c(high_cor)]
+df
