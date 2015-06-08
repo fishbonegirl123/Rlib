@@ -2,7 +2,8 @@
 ###cor, code corp, $df should be replaced
 ###################################################
 #data example
-df<-matrix(1:12, ncol=4, byrow=T)
+n<-10
+df<-data.frame(y1=abs(rnorm(n)),y2=abs(rnorm(n)),y3=abs(rnorm(n)))
 
 library(ggplot2)
 #列相关性
@@ -13,7 +14,9 @@ ggplot(data.frame(Correlation = correlations),
   geom_density() +  
   theme(legend.position = 'none')
 
+
 #pca
+library(caret)
 pca <- princomp(df[,2:ncol(df)])
 pca
 #观察第一载荷的分布

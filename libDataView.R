@@ -49,26 +49,12 @@ boxplot(summary(algae$season))
 
 
 ###################################################
-###cor, code corp, df should be replaced
+###date processing, code corp, panel should be replaced
 ###################################################
-#数据准备
-df<-matrix(1:12, ncol=4, byrow=T)
+panel$year <- substr(as.character(panel$Open.Date),7,10)
+panel$month <- substr(as.character(panel$Open.Date),1,2)
+panel$day <- substr(as.character(panel$Open.Date),4,5)
 
-library(ggplot2)
-#列相关性
-cor.matrix <- cor(df)
-correlations <- as.numeric(cor.matrix)
-ggplot(data.frame(Correlation = correlations),        
-       aes(x = Correlation, fill = 1)) +  
-  geom_density() +  
-  theme(legend.position = 'none')
-#列正相关，可以使用pca
-pca <- princomp(df[,2:ncol(df)])
-pca
-#观察第一载荷的分布
-principal.component <- pca$loadings[,1]
-loadings <- as.numeric(principal.component)
-ggplot(data.frame(Loading = loadings), 
-       aes(x = Loading, fill = 1)) +
-  geom_density() +
-  theme(legend.position = 'none')
+panel$Date <- as.Date(strptime(panel$Open.Date, "%m/%d/%Y"))
+
+panel$days <- as.numeric(as.Date("2014-02-02")-panel$Date)
